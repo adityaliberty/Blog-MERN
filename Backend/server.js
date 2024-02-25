@@ -1,16 +1,17 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
+import userRoutes from "./routes/user.route.js";
+import { dbConnection } from "./dbConnection/index.js";
+import morgan from "morgan";
+
 const app = express();
 dotenv.config();
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => {
-    console.log("DB is connected!");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-app.listen(3000, () => {
-  console.log("server is running on port 3000!!");
+dbConnection();
+
+app.listen(process.env.PORT, () => {
+  console.log(`server is running on port ${process.env.PORT}`);
 });
+
+// logs incoming requests with endpoint and response time
+app.use(morgan(":method :url :response-time"));
+app.use("/api/user", userRoutes);
