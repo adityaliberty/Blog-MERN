@@ -1,8 +1,6 @@
 import express from "express";
 import { test } from "../controllers/user.controller.js";
 
-const router = express.Router();
+export const userRoutes = express.Router();
 
-router.get("/health-check", test);
-
-export default router;
+userRoutes.get("/health-check", test);
